@@ -1,0 +1,47 @@
+{% extends 'blogapp/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+
+    <!-- Blog Post Title -->
+    <h2 class="mb-4">{{ post.title }}</h2>
+
+    <!-- Comment Form -->
+    <div class="card mb-4">
+        <div class="card-header">
+            Leave a Comment
+        </div>
+        <div class="card-body">
+            {% if user.is_authenticated %}
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    {{ comment_form.text.label_tag }}
+                    {{ comment_form.text}}
+                </div>
+                <button type="submit" class="btn btn-primary">Post Comment</button>
+            </form>
+            {% else %}
+            <p>You must <a href="{% url 'login' %}?next={{ request.path }}">log in</a> to leave a comment.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Comment List -->
+    <h4 class="mb-3">{{ comments.count }} Comment{{ comments.count|pluralize }}</h4>
+    {% for comment in comments %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <h6 class="card-subtitle mb-2 text-muted">
+                {{ comment.user.username }} • {{ comment.created_at|date:"M d, Y H:i" }}
+            </h6>
+            <p class="card-text">{{ comment.text }}</p>
+        </div>
+    </div>
+    {% empty %}
+    <p>No comments yet.</p>
+    {% endfor %}
+
+</div>
+{% endblock %}

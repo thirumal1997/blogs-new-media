@@ -1,0 +1,22 @@
+# Python
+*.pyc
+__pycache__/
+
+# Django
+*.sqlite3
+db.sqlite3
+
+# Virtualenv
+venv/
+.env
+
+# Media and static builds (you no longer need to keep these)
+media/
+staticfiles/
+
+# VSCode or IDE files
+.vscode/
+.idea/
+
+# System files
+.DS_Store
