@@ -164,3 +164,22 @@ CKEDITOR_CONFIGS = {
         'allowedContent': True,  # allows custom HTML like <img>
     }
 }
+
+#for showing error messages when online live
+import sys
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'stream': sys.stdout,
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
+}
+
