@@ -80,13 +80,6 @@ WSGI_APPLICATION = 'blog.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -184,4 +177,32 @@ LOGGING = {
         'level': 'DEBUG',
     },
 }
+
+
+import os
+import dj_database_url
+from django.core.exceptions import ImproperlyConfigured
+
+# ... BASE_DIR definition and other settings ...
+
+# --- DATABASE CONFIGURATION ---
+DATABASE_URL = os.environ.get('DATABASE_URL')
+
+if not DATABASE_URL:
+    # Raise a clear error if the critical environment variable is missing
+    raise ImproperlyConfigured(
+        "The DATABASE_URL environment variable is missing. "
+        "Check your Render Web Service settings."
+    )
+
+DATABASES = {
+    'default': dj_database_url.config(
+        default=DATABASE_URL, 
+        conn_max_age=600,
+        # THIS WAS THE BUG: Changed from singular to plural
+        conn_health_checks=True, 
+        engine='django.db.backends.postgresql'
+    )
+}
+
 
