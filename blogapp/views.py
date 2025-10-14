@@ -20,7 +20,7 @@ def post_list(request):
    
     
 
-    all_posts = BlogPost.objects.order_by('-created_at')[:5]
+    all_posts = BlogPost.objects.order_by('-created_at')
 
     if query:
         suggestions = BlogPost.objects.filter(
@@ -37,7 +37,6 @@ def post_list(request):
         'posts': all_posts,
         'query': query,
         'suggestions': suggestions,
-        'trending_posts': trending_posts,
         'page_obj': page_obj,
     })
 
