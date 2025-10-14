@@ -44,7 +44,9 @@
                     <div class="card-text">
                         {{ post.content| safe |truncatechars:100 }}
                     </div>
-                    <a href="{% url 'post_detail' post.id %}" class="btn btn-sm btn-primary mt-2">Read more</a>
+                    <div>
+                        <a href="{% url 'post_detail' post.id %}" class="btn btn-sm btn-primary mt-2">Read more</a>
+                    </div>
                 </div>
             </div>
 
