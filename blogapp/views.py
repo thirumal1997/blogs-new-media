@@ -16,14 +16,11 @@ def post_list(request):
     query = request.GET.get('q')
     suggestions = []
     # for viral posts last 24 hrs by views
-    time_threshold = timezone.now() - timedelta(days=1)
-    trending_posts = BlogPost.objects.filter(views__viewed_at__gte=time_threshold).annotate(
-        recent_views=Count('views')).order_by('-recent_views')
+    
+   
+    
 
-    trending_ids = [post.id for post in trending_posts]
-
-    all_posts = BlogPost.objects.exclude(
-        id__in=trending_ids).order_by('-created_at')[:5]
+    all_posts = BlogPost.objects.order_by('-created_at')[:5]
 
     if query:
         suggestions = BlogPost.objects.filter(
@@ -45,15 +42,8 @@ def post_list(request):
     })
 
 
-# for storing a views of the each blogs using ip
-def get_client_ip(request):
-    """Returns the client's IP address, handling proxy headers."""
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0]
-    else:
-        ip = request.META.get('REMOTE_ADDR')
-    return ip
+
+
 
 
 def post_detail(request, id,):
@@ -68,8 +58,7 @@ def post_detail(request, id,):
     page_obj = pagenation_obj.get_page(page_number)
 
     # track views from using ip address
-    ip = get_client_ip(request)
-    PostViews.objects.create(post=post, ip_address=ip, viewed_at=now())
+    
 
     return render(request, 'blogapp/post_detail.html', {'post': post, 'page_obj': page_obj})
 
