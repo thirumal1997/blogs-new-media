@@ -21,12 +21,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-7w^+#ntdox2zkav%(pexjtkwb*)4be0=^ftro589!4otwr+cvj'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
 ALLOWED_HOSTS = ["blogs-new-media.onrender.com"]
+CSRF_TRUSTED_ORIGINS = ['https://blogs-new-media.onrender.com']
+
 
 
 # Application definition
@@ -138,7 +140,7 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': ' dphrkbten',
-    'API_KEY': '198942186489173',
+    'API_KEY': os.environ.get('CLOUDINARY_SECRET_KEY'),
     'API_SECRET': 'B94GWBAQfc-blzjf6sBZ1XuQf30',
 }
 
