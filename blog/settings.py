@@ -31,7 +31,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'True'
 
-ALLOWED_HOSTS = ['https://blogs-new-media.onrender.com/']
+ALLOWED_HOSTS = ['blogs-new-media.onrender.com/']
 CSRF_TRUSTED_ORIGINS = ['https://blogs-new-media.onrender.com/']
 
 
