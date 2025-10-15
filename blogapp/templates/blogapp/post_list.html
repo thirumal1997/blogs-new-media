@@ -26,30 +26,17 @@
     </div>
     {% endif %}
 
-    <h3>Trending last 24 hrs</h3>
-  
-   
-    {% for post in page_obj %}
-    <div class=" card h100 mb-4 shadow border p-3 col-lg-8 col-md-10 col-sm-12 mx-auto">
-        <div class="row g-0">
-            
-            <div class=" mx-auto">
-                <div class="card-body">
-                    <h4 class="card-title">
-                        <a href="{% url 'post_detail' post.id %}" class="text-dark text-decoration-none">
-                            {{ post.title }}
-                        </a>
-                    </h4>
-                    <p class="card-subtitle mb-2 text-muted">{{ post.created_at|date:"F d, Y" }}</p>
-                    <div class="card-text">
-                        {{ post.content| safe |truncatechars:100 }}
-                    </div>
-                    <div>
-                        <a href="{% url 'post_detail' post.id %}" class="btn btn-sm btn-primary mt-2">Read more</a>
-                    </div>
-                </div>
-            </div>
+    <h3 class="m-3">POSTS</h3>
 
+
+    {% for post in page_obj %}
+    <div class="card mb-3 h100">
+        <div class="card-body">
+            <a href="{% url 'post_detail' post.pk %}" class="card-title">
+                <h2>{{ post.title }}</h2>
+            </a>
+            <p class="card-text">{{ post.content|truncatechars:300|safe }}</p>
+            <a href="{% url 'post_detail' post.pk %}" class="btn btn-primary btn-sm mt-2">Read More</a>
         </div>
     </div>
     {% endfor %}

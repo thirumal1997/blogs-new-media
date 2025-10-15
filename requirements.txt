@@ -5,7 +5,7 @@ charset-normalizer==3.4.3
 cloudinary==1.44.1
 Django==5.2.6
 django-ckeditor==6.7.3
-django-cloudinary-storage==0.3.0
+
 django-js-asset==3.1.2
 idna==3.10
 pillow==11.3.0

@@ -10,25 +10,29 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+from django.core.exceptions import ImproperlyConfigured
+import sys
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+load_dotenv()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+SECRET_KEY = os.environ('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = 'True'
 
-ALLOWED_HOSTS = ["blogs-new-media.onrender.com"]
-CSRF_TRUSTED_ORIGINS = ['https://blogs-new-media.onrender.com']
-
+ALLOWED_HOSTS = ['https://blogs-new-media.onrender.com/']
+CSRF_TRUSTED_ORIGINS = ['https://blogs-new-media.onrender.com/']
 
 
 # Application definition
@@ -45,6 +49,7 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'cloudinary',
     'cloudinary_storage',
+
 ]
 
 MIDDLEWARE = [
@@ -131,37 +136,26 @@ LOGOUT_REDIRECT_URL = 'login'  # After logout, go to login page
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': ' dphrkbten',
-    'API_KEY': os.environ.get('CLOUDINARY_SECRET_KEY'),
-    'API_SECRET': 'B94GWBAQfc-blzjf6sBZ1XuQf30',
-}
-
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
 CKEDITOR_CONFIGS = {
     'default': {
-        'toolbar': 'Custom',
-        'toolbar_Custom': [
-            ['Format', 'Bold', 'Italic', 'Underline'],
-            ['Link', 'Unlink'],
-            ['Image', 'Table', 'HorizontalRule'],
-            ['NumberedList', 'BulletedList'],
-            ['RemoveFormat', 'Source'],
-        ],
-        'height': 300,
-        'width': '100%',
-        'extraPlugins': ','.join([
-            'uploadimage',  # for image uploads
-        ]),
+        'toolbar': 'Full',
+        'height': 400,
+        'width': 'auto',
+        'forcePasteAsPlainText': True,
         'removePlugins': 'stylesheetparser',
-        'allowedContent': True,  # allows custom HTML like <img>
+        'allowedContent': True,  # 👈 Very important to allow full HTML
+        'extraAllowedContent': 'img[alt,!src,width,height];a[!href];',
+        'autoParagraph': False,
+        'enterMode': 2,  # CKEDITOR.ENTER_BR to avoid <p> tag wrapping
+        'placeholder': 'Paster the clean html with p and h tags if image use proper cdn source link also give the right height and width',
     }
 }
 
-#for showing error messages when online live
-import sys
+
+# for showing error messages when online live
 
 LOGGING = {
     'version': 1,
@@ -178,31 +172,10 @@ LOGGING = {
     },
 }
 
-
-import os
-import dj_database_url
-from django.core.exceptions import ImproperlyConfigured
-
-# ... BASE_DIR definition and other settings ...
-
-# --- DATABASE CONFIGURATION ---
-DATABASE_URL = os.environ.get('DATABASE_URL')
-
-if not DATABASE_URL:
-    # Raise a clear error if the critical environment variable is missing
-    raise ImproperlyConfigured(
-        "The DATABASE_URL environment variable is missing. "
-        "Check your Render Web Service settings."
-    )
-
 DATABASES = {
     'default': dj_database_url.config(
-        default=DATABASE_URL, 
+        default=os.environ.get('DATABASE_URL'),
         conn_max_age=600,
-        # THIS WAS THE BUG: Changed from singular to plural
-        conn_health_checks=True, 
-        engine='django.db.backends.postgresql'
+        ssl_require=True
     )
 }
-
-

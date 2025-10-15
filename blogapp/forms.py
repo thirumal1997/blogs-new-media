@@ -5,9 +5,9 @@ from .models import BlogPost, Comment
 class PostForm(forms.ModelForm):
     class Meta:
         model = BlogPost
-        fields = ['title', 'content', 'image']
+        fields = ['title', 'content',]
         widgets = {
-            'content': forms.Textarea(attrs={'rows': 20, 'placeholder': 'Paste clean HTML here'}),
+            'content': forms.Textarea(attrs={'rows': 40, 'placeholder': 'Paste clean HTML here', 'class': 'form-control'}),
         }
 
 

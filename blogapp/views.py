@@ -1,14 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import BlogPost, Comment, PostViews
+from .models import BlogPost, Comment
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import PostForm, CommentForm
-from django.db.models import Q, Count
-from django.utils.timezone import now
-from django.utils import timezone
-from datetime import timedelta
+from django.db.models import Q
 from django.core.paginator import Paginator
 
 
@@ -16,9 +13,6 @@ def post_list(request):
     query = request.GET.get('q')
     suggestions = []
     # for viral posts last 24 hrs by views
-    
-   
-    
 
     all_posts = BlogPost.objects.order_by('-created_at')
 
@@ -41,10 +35,6 @@ def post_list(request):
     })
 
 
-
-
-
-
 def post_detail(request, id,):
     post = get_object_or_404(BlogPost, id=id)
 
@@ -57,7 +47,6 @@ def post_detail(request, id,):
     page_obj = pagenation_obj.get_page(page_number)
 
     # track views from using ip address
-    
 
     return render(request, 'blogapp/post_detail.html', {'post': post, 'page_obj': page_obj})
 
