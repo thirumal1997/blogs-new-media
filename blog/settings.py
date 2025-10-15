@@ -47,9 +47,6 @@ INSTALLED_APPS = [
     'blogapp',
     'ckeditor',
     'ckeditor_uploader',
-    'cloudinary',
-    'cloudinary_storage',
-
 ]
 
 MIDDLEWARE = [
